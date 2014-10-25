@@ -22,7 +22,7 @@ DEBIAN_FRONTEND=noninteractive and apt-get -qq are used for automatic silent ins
 
 date.timezone=Europe/Sofia and ;disable_functions= are set in php.ini
 
-After Jenkins is installed and needs its first update there is a wait of 20 seconds until the update script is called. 
+After Jenkins is installed and needs its first update there is a wait of 60 seconds until the update script is called. 
 
 The Jenkins server is first updated before installing the plugins.
 
