@@ -74,10 +74,14 @@ docker cp jenkins:/var/lib/jenkins/* /home/myname/jenkins/
 docker rm jenkins
 ```
 
-And then run a new container by specifying the data volume:
+And then run a new container by specifying the data volume (you'll also need to give rights to the jenkins user on the mapped dir):
 
 ```bash
-docker run -d --name jenkins -p localhost:8080:8080 -v /home/myname/jenkins:/var/lib/jenkins iliyan/jenkins-ci-php:1.0.0
+docker run -d --name jenkins -p localhost:8080:8080 -v /home/myname/jenkins:/var/lib/jenkins iliyan/jenkins-ci-php:1.0.0 bash
+chown -R jenkins:jenkins /var/lib/jenkins
+exit
+docker commit jenkins myname/jenkins
+docker run -d --name jenkins -p localhost:8080:8080 -v /home/myname/jenkins:/var/lib/jenkins myname/jenkins sh /run_all.sh 
 ```
 
 Extending it
