@@ -4,7 +4,10 @@ Docker container with Jenkins CI and full PHP configuration and tools
 Information
 ---
 
-This Docker image follows the http://jenkins-php.org/ configuration
+[See it in action here](http://jenkins.iliyan-trifonov.com/ "Jenkins CI PHP on iliyan-trifonov.com").
+
+This [Docker image](https://registry.hub.docker.com/u/iliyan/jenkins-ci-php/ "Docker image with Jenkins CI and full PHP configuration and tools")
+follows the http://jenkins-php.org/ configuration
 for installing Jenkins CI and the PHP testing tools.
 
 It uses Ubuntu 14.04 LTS image.
@@ -42,18 +45,18 @@ Install
 First download the image:
 
 ```bash
-docker pull iliyan/docker-jenkins-ci-php:1.0.0
+docker pull iliyan/jenkins-ci-php:1.0.0
 ```
 
 And run it:
 
 Locally:
 ```bash
-docker run -d --name jenkins -p localhost:8080:8080 iliyan/docker-jenkins-ci-php:1.0.0
+docker run -d --name jenkins -p localhost:8080:8080 iliyan/jenkins-ci-php:1.0.0
 ```
 Visible from outside on a hosting server:
 ```bash
-docker run -d --name jenkins -p VISIBLESERVERPORT:8080 iliyan/docker-jenkins-ci-php:1.0.0
+docker run -d --name jenkins -p VISIBLESERVERPORT:8080 iliyan/jenkins-ci-php:1.0.0
 ```
 
 Data Volumes
@@ -66,7 +69,7 @@ First copy what is created by the image build script inside /var/lib/jenkins by 
 
 ```bash
 mkdir /home/myname/jenkins
-docker run -ti --name jenkins iliyan/docker-jenkins-ci-php echo "Hello, Docker"
+docker run -ti --name jenkins iliyan/jenkins-ci-php echo "Hello, Docker"
 docker cp jenkins:/var/lib/jenkins/* /home/myname/jenkins/
 docker rm jenkins
 ```
@@ -74,7 +77,7 @@ docker rm jenkins
 And then run a new container by specifying the data volume:
 
 ```bash
-docker run -d --name jenkins -p localhost:8080:8080 -v /home/myname/jenkins:/var/lib/jenkins iliyan/docker-jenkins-ci-php:1.0.0
+docker run -d --name jenkins -p localhost:8080:8080 -v /home/myname/jenkins:/var/lib/jenkins iliyan/jenkins-ci-php:1.0.0
 ```
 
 Extending it
@@ -83,7 +86,7 @@ Extending it
 If you need to install a new PHP extension or update Jenkins without rebuilding the image, you can start the container with Bash:
 
 ```bash
-docker run -ti --name jenkins_tmp -v /home/myname/jenkins:/var/lib/jenkins iliyan/docker-jenkins-ci-php:1.0.0 bash
+docker run -ti --name jenkins_tmp -v /home/myname/jenkins:/var/lib/jenkins iliyan/jenkins-ci-php:1.0.0 bash
 ```
 
 Update, install or change any configuration and then exit the container, commit it:
