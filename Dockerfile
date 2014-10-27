@@ -24,11 +24,15 @@ RUN export DEBIAN_FRONTEND=noninteractive; \
 RUN sed -i 's|;date.timezone.*=.*|date.timezone=Europe/Sofia|' /etc/php5/cli/php.ini; \
 	sed -i 's|disable_functions.*=|;disable_functions=|' /etc/php5/cli/php.ini
 
+RUN export DEBCONF_NONINTERACTIVE_SEEN=true DEBIAN_FRONTEND=noninteractive; \
+    echo "Europe/Sofia" > /etc/timezone; \
+    dpkg-reconfigure tzdata
+
 RUN service jenkins start; \
 	sleep 60; \
 	curl -L http://updates.jenkins-ci.org/update-center.json | sed '1d;$d' | curl -X POST -H 'Accept: application/json' -d @- http://localhost:8080/updateCenter/byId/default/postBack; \
 	wget http://localhost:8080/jnlpJars/jenkins-cli.jar; \
-	java -jar jenkins-cli.jar -s http://localhost:8080 install-plugin checkstyle cloverphp crap4j dry htmlpublisher jdepend plot pmd violations xunit; \
+	java -jar jenkins-cli.jar -s http://localhost:8080 install-plugin checkstyle cloverphp crap4j dry htmlpublisher jdepend plot pmd violations xunit git; \
 	java -jar jenkins-cli.jar -s http://localhost:8080 safe-restart; \
 	curl https://raw.githubusercontent.com/sebastianbergmann/php-jenkins-template/master/config.xml | \
 	java -jar jenkins-cli.jar -s http://localhost:8080 create-job php-template; \
