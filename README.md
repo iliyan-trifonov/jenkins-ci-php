@@ -67,7 +67,7 @@ And run it:
 
 Locally:
 ```bash
-docker run -d --name jenkins -p localhost:8080:8080 iliyan/jenkins-ci-php:1.0.1
+docker run -d --name jenkins -p 127.0.0.1:8080:8080 iliyan/jenkins-ci-php:1.0.1
 ```
 
 Visible from outside on a hosting server:
@@ -95,11 +95,11 @@ docker rm jenkins
 And then run a new container by specifying the data volume (you'll also need to give rights to the jenkins user on the mapped dir):
 
 ```bash
-docker run -d --name jenkins -p localhost:8080:8080 -v /home/myname/jenkins:/var/lib/jenkins iliyan/jenkins-ci-php:1.0.1 bash
+docker run -d --name jenkins -p 127.0.0.1:8080:8080 -v /home/myname/jenkins:/var/lib/jenkins iliyan/jenkins-ci-php:1.0.1 bash
 chown -R jenkins:jenkins /var/lib/jenkins
 exit
 docker commit jenkins myname/jenkins
-docker run -d --name jenkins -p localhost:8080:8080 -v /home/myname/jenkins:/var/lib/jenkins myname/jenkins sh /run_all.sh 
+docker run -d --name jenkins -p 127.0.0.1:8080:8080 -v /home/myname/jenkins:/var/lib/jenkins myname/jenkins sh /run_all.sh 
 ```
 
 Extending it
