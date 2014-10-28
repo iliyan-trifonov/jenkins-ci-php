@@ -60,19 +60,45 @@ Install
 First download the image:
 
 ```bash
-docker pull iliyan/jenkins-ci-php:1.0.1
+sudo docker pull iliyan/jenkins-ci-php:1.0.1
 ```
 
 And run it:
 
 Locally:
+
 ```bash
-docker run -d --name jenkins -p 127.0.0.1:8080:8080 iliyan/jenkins-ci-php:1.0.1
+sudo docker run -d --name jenkins -p 127.0.0.1:8080:8080 iliyan/jenkins-ci-php:1.0.1
 ```
 
 Visible from outside on a hosting server:
+
 ```bash
-docker run -d --name jenkins -p VISIBLESERVERPORT:8080 iliyan/jenkins-ci-php:1.0.1
+sudo docker run -d --name jenkins -p VISIBLESERVERPORT:8080 iliyan/jenkins-ci-php:1.0.1
+```
+
+Updating
+---
+
+Don't forget to backup the /var/lib/jenkins directory first!
+It is recommended to always use data volume, mapping a local directory on the host to /var/lib/jenkins. 
+
+First pull the latest docker image:
+
+```bash
+sudo docker pull iliyan/jenkins-ci-php:1.0.1
+```
+
+Then just remove the currently running image with:
+
+```bash
+sudo docker stop jenkins && sudo docker rm jenkins
+```
+
+Then run the latest image. For example using it with a data volume:
+
+```bash
+sudo docker run -d --name jenkins -p 127.0.0.1:8080 -v /home/myname/jenkins:/var/lib/jenkins iliyan/jenkins-ci-php:1.0.1
 ```
 
 Data Volumes
@@ -87,19 +113,19 @@ First copy what is created by the image build script inside /var/lib/jenkins by 
 
 ```bash
 mkdir /home/myname/jenkins
-docker run -ti --name jenkins iliyan/jenkins-ci-php:1.0.1 echo "Hello, Docker"
-docker cp jenkins:/var/lib/jenkins/* /home/myname/jenkins/
-docker rm jenkins
+sudo docker run -ti --name jenkins iliyan/jenkins-ci-php:1.0.1 echo "Hello, Docker"
+sudo docker cp jenkins:/var/lib/jenkins/* /home/myname/jenkins/
+sudo docker rm jenkins
 ```
 
 And then run a new container by specifying the data volume (you'll also need to give rights to the jenkins user on the mapped dir):
 
 ```bash
-docker run -d --name jenkins -p 127.0.0.1:8080:8080 -v /home/myname/jenkins:/var/lib/jenkins iliyan/jenkins-ci-php:1.0.1 bash
+sudo docker run -d --name jenkins -p 127.0.0.1:8080:8080 -v /home/myname/jenkins:/var/lib/jenkins iliyan/jenkins-ci-php:1.0.1 bash
 chown -R jenkins:jenkins /var/lib/jenkins
 exit
-docker commit jenkins myname/jenkins
-docker run -d --name jenkins -p 127.0.0.1:8080:8080 -v /home/myname/jenkins:/var/lib/jenkins myname/jenkins sh /run_all.sh 
+sudo docker commit jenkins myname/jenkins
+sudo docker run -d --name jenkins -p 127.0.0.1:8080:8080 -v /home/myname/jenkins:/var/lib/jenkins myname/jenkins sh /run_all.sh 
 ```
 
 Extending it
@@ -108,19 +134,19 @@ Extending it
 If you need to install a new PHP extension or update Jenkins without rebuilding the image, you can start the container with Bash:
 
 ```bash
-docker run -ti --name jenkins_tmp -v /home/myname/jenkins:/var/lib/jenkins iliyan/jenkins-ci-php:1.0.1 bash
+sudo docker run -ti --name jenkins_tmp -v /home/myname/jenkins:/var/lib/jenkins iliyan/jenkins-ci-php:1.0.1 bash
 ```
 
 Update, install or change any configuration and then exit the container, commit it:
 
 ```bash
-docker commit jenkins_tmp myname/jenkins && jenkins stop jenkins && jenkins rm jenkins jenkins_tmp
+sudo docker commit jenkins_tmp myname/jenkins && jenkins stop jenkins && jenkins rm jenkins jenkins_tmp
 ```
 
 Start from the image/tag where you've made and comitted the changes:
 
 ```bash
-docker run -d --name jenkins -p 8080:8080 -v /home/myname/jenkins:/var/lib/jenkins myname/jenkins sh /run_all.sh
+sudo docker run -d --name jenkins -p 8080:8080 -v /home/myname/jenkins:/var/lib/jenkins myname/jenkins sh /run_all.sh
 ```
 
 You may also want to change the versions of the PHP tools in Dockerfile and rebuild the image.
@@ -128,7 +154,7 @@ You may also want to change the versions of the PHP tools in Dockerfile and rebu
 Inside the directory where the Dockerfile is, the build command will be:
 
 ```bash
-build --no-cache --force-rm -t myname/jenkins .
+sudo docker build --no-cache --force-rm -t myname/jenkins .
 ```
 
 After the buiild use myname/jenkins to run the container
