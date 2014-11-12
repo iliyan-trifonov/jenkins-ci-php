@@ -19,7 +19,7 @@ RUN wget -q -O - https://jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key
 
 RUN export DEBIAN_FRONTEND=noninteractive; \
 	apt-get update; \
-	apt-get -qq install php5-cli php5-xsl php5-json php5-curl php5-sqlite php5-mysqlnd php5-xdebug php-pear curl git ant jenkins
+	apt-get -qq install php5-cli php5-xsl php5-json php5-curl php5-sqlite php5-mysqlnd php5-xdebug php5-intl php-pear curl git ant jenkins
 
 RUN sed -i 's|;date.timezone.*=.*|date.timezone=Europe/Sofia|' /etc/php5/cli/php.ini; \
 	sed -i 's|disable_functions.*=|;disable_functions=|' /etc/php5/cli/php.ini
