@@ -1,4 +1,4 @@
-Docker container with Jenkins CI and full PHP configuration and tools
+Docker image with Jenkins CI and full PHP configuration and tools
 ===
 
 Information
