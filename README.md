@@ -128,6 +128,12 @@ sudo docker commit jenkins myname/jenkins
 sudo docker run -d --name jenkins -p 127.0.0.1:8080:8080 -v /home/myname/jenkins:/var/lib/jenkins myname/jenkins sh /run_all.sh 
 ```
 
+One fix may be needed
+---
+
+Change `index.xhtml` to `index.html` in the `Publish HTML reports` section in the project's settings.
+This will fix the missing `Api documentation` page in the project's dashboard.
+
 Extending it
 ---
 
