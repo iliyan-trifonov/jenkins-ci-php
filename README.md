@@ -145,6 +145,9 @@ Go to: `Manage Jenkins` -> `Configure Global Security`
 and change `Escaped HTML` to `Raw HTML`.
 Save.
 
+If your tests output colors you may find it useful to see the colors in the project builds' console logs.
+To enable this check the `Color ANSI Console Output checkbox` in the project's settings.
+
 Don't forget to secure your Jenkins pages from unauthorized access.
 
 Extending it
