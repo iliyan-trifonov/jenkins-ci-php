@@ -21,22 +21,17 @@ RUN export DEBIAN_FRONTEND=noninteractive; \
 	apt-get update; \
 	apt-get -qq install php5-cli php5-xsl php5-json php5-curl php5-sqlite php5-mysqlnd php5-xdebug php5-intl php5-mcrypt php-pear curl git ant jenkins
 
-RUN sed -i 's|;date.timezone.*=.*|date.timezone=Europe/Sofia|' /etc/php5/cli/php.ini; \
-	sed -i 's|disable_functions.*=|;disable_functions=|' /etc/php5/cli/php.ini
-
-RUN export DEBCONF_NONINTERACTIVE_SEEN=true DEBIAN_FRONTEND=noninteractive; \
-    echo "Europe/Sofia" > /etc/timezone; \
-    dpkg-reconfigure tzdata
-
 RUN service jenkins start; \
 	sleep 60; \
 	curl -L http://updates.jenkins-ci.org/update-center.json | sed '1d;$d' | curl -X POST -H 'Accept: application/json' -d @- http://localhost:8080/updateCenter/byId/default/postBack; \
 	wget http://localhost:8080/jnlpJars/jenkins-cli.jar; \
-	java -jar jenkins-cli.jar -s http://localhost:8080 install-plugin checkstyle cloverphp crap4j dry htmlpublisher jdepend plot pmd violations xunit git; \
+	java -jar jenkins-cli.jar -s http://localhost:8080 install-plugin checkstyle cloverphp crap4j dry htmlpublisher jdepend plot pmd violations xunit git ansicolor; \
 	java -jar jenkins-cli.jar -s http://localhost:8080 safe-restart; \
 	curl https://raw.githubusercontent.com/sebastianbergmann/php-jenkins-template/master/config.xml | \
 	java -jar jenkins-cli.jar -s http://localhost:8080 create-job php-template; \
 	java -jar jenkins-cli.jar -s http://localhost:8080 reload-configuration
+
+RUN sed -i 's|disable_functions.*=|;disable_functions=|' /etc/php5/cli/php.ini
 
 RUN mkdir -p /home/jenkins/composerbin && chown -R jenkins:jenkins /home/jenkins; \
 	sudo -H -u jenkins bash -c ' \
@@ -60,7 +55,15 @@ RUN mkdir -p /home/jenkins/composerbin && chown -R jenkins:jenkins /home/jenkins
 	ln -s /home/jenkins/composerbin/phpmd /usr/local/bin/; \
 	ln -s /home/jenkins/composerbin/phpunit /usr/local/bin/
 
-RUN echo "service jenkins start" > /run_all.sh; \
+RUN echo 'if [ -z "$TIME_ZONE" ]; then echo "No TIME_ZONE env set!" && exit 1; fi' > /set_timezone.sh; \
+	echo "sed -i 's|;date.timezone.*=.*|date.timezone='\$TIME_ZONE'|' /etc/php5/cli/php.ini;" >> /set_timezone.sh; \
+	echo "echo \$TIME_ZONE > /etc/timezone;" >> /set_timezone.sh; \
+	echo "export DEBCONF_NONINTERACTIVE_SEEN=true DEBIAN_FRONTEND=noninteractive;" >> /set_timezone.sh; \
+	echo "dpkg-reconfigure tzdata" >> /set_timezone.sh; \
+	echo "echo time zone set to: \$TIME_ZONE"  >> /set_timezone.sh;
+
+RUN echo 'if [ -n "$TIME_ZONE" ]; then sh /set_timezone.sh; fi' > /run_all.sh; \
+	echo "service jenkins start" >> /run_all.sh; \
 	echo "tail -f /var/log/jenkins/jenkins.log" >> /run_all.sh
 
 EXPOSE 8080
