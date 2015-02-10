@@ -128,11 +128,18 @@ sudo docker commit jenkins myname/jenkins
 sudo docker run -d --name jenkins -p 127.0.0.1:8080:8080 -v /home/myname/jenkins:/var/lib/jenkins myname/jenkins sh /run_all.sh 
 ```
 
-One fix may be needed
+Possible configuration changes after install
 ---
 
-Change `index.xhtml` to `index.html` in the `Publish HTML reports` section in the project's settings.
+Make sure the value of `Index page[s]` in the `Publish HTML reports` section in the project's settings is `index.html`.
 This will fix the missing `Api documentation` page in the project's dashboard.
+
+Enable top images in project's dashboard:
+Go to: `Manage Jenkins` -> `Configure Global Security`
+and change `Escaped HTML` to `Raw HTML`.
+Save.
+
+Don't forget to secure your Jenkins pages from unauthorized access.
 
 Extending it
 ---
