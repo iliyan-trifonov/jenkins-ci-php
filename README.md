@@ -107,6 +107,10 @@ Then run the latest image. For example using it with a data volume:
 sudo docker run -d --name jenkins -p 127.0.0.1:8080 -v /home/myname/jenkins:/var/lib/jenkins iliyan/jenkins-ci-php:1.1.0
 ```
 
+When I see in `Manage Jenkins` that there is a new update of the server, I run a new build for all of this project's versions/tags.
+This way even if you pull the same tag you will have a newer version of jenkins automatically.
+I suggest you to pull my Jenkins image at least once a month and you can also submit an issue for me to update to the latest version.
+
 Data Volumes
 ---
 
