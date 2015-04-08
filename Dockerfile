@@ -22,7 +22,7 @@ RUN export DEBIAN_FRONTEND=noninteractive; \
 	apt-get -qq install php5-cli php5-xsl php5-json php5-curl php5-sqlite php5-mysqlnd php5-xdebug php5-intl php5-mcrypt php-pear curl git ant jenkins
 
 RUN service jenkins start; \
-	sleep 60; \
+	sleep 90; \
 	curl -L http://updates.jenkins-ci.org/update-center.json | sed '1d;$d' | curl -X POST -H 'Accept: application/json' -d @- http://localhost:8080/updateCenter/byId/default/postBack; \
 	wget http://localhost:8080/jnlpJars/jenkins-cli.jar; \
 	java -jar jenkins-cli.jar -s http://localhost:8080 install-plugin checkstyle cloverphp crap4j dry htmlpublisher jdepend plot pmd violations xunit git ansicolor; \
