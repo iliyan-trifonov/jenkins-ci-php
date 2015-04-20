@@ -33,6 +33,8 @@ RUN service jenkins start; \
 
 RUN sed -i 's|disable_functions.*=|;disable_functions=|' /etc/php5/cli/php.ini
 
+RUN echo "xdebug.max_nesting_level = 500" >> /etc/php5/mods-available/xdebug.ini
+
 RUN mkdir -p /home/jenkins/composerbin && chown -R jenkins:jenkins /home/jenkins; \
 	sudo -H -u jenkins bash -c ' \
 		curl -sS https://getcomposer.org/installer | php -- --install-dir=/home/jenkins/composerbin --filename=composer;'; \
