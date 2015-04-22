@@ -22,7 +22,9 @@ RUN export DEBIAN_FRONTEND=noninteractive; \
 	apt-get -qq install php5-cli php5-xsl php5-json php5-curl php5-sqlite php5-mysqlnd php5-xdebug php5-intl php5-mcrypt php-pear curl git ant jenkins
 
 RUN service jenkins start; \
-	sleep 90; \
+	while ! echo exit | nc -z -w 3 localhost 8080; do sleep 3; done; \
+	while curl -s http://localhost:8080 | grep "Please wait"; do echo "Waiting for Jenkins to start.." && sleep 3; done; \
+	echo "Jenkins started"; \
 	curl -L http://updates.jenkins-ci.org/update-center.json | sed '1d;$d' | curl -X POST -H 'Accept: application/json' -d @- http://localhost:8080/updateCenter/byId/default/postBack; \
 	wget http://localhost:8080/jnlpJars/jenkins-cli.jar; \
 	java -jar jenkins-cli.jar -s http://localhost:8080 install-plugin checkstyle cloverphp crap4j dry htmlpublisher jdepend plot pmd violations xunit git ansicolor; \
@@ -42,11 +44,11 @@ RUN mkdir -p /home/jenkins/composerbin && chown -R jenkins:jenkins /home/jenkins
 	sudo -H -u jenkins bash -c ' \
 		export COMPOSER_BIN_DIR=/home/jenkins/composerbin; \
 		export COMPOSER_HOME=/home/jenkins; \
-		composer global require "phpunit/phpunit=4.3.*" --prefer-source --no-interaction; \
-		composer global require "squizlabs/php_codesniffer=1.*" --prefer-source --no-interaction; \
+		composer global require "phpunit/phpunit=*" --prefer-source --no-interaction; \
+		composer global require "squizlabs/php_codesniffer=*" --prefer-source --no-interaction; \
 		composer global require "phploc/phploc=*" --prefer-source --no-interaction; \
-		composer global require "pdepend/pdepend=2.0.3" --prefer-source --no-interaction; \
-		composer global require "phpmd/phpmd=@stable" --prefer-source --no-interaction; \
+		composer global require "pdepend/pdepend=*" --prefer-source --no-interaction; \
+		composer global require "phpmd/phpmd=*" --prefer-source --no-interaction; \
 		composer global require "sebastian/phpcpd=*" --prefer-source --no-interaction; \
 		composer global require "theseer/phpdox=*" --prefer-source --no-interaction; '; \
 	ln -s /home/jenkins/composerbin/pdepend /usr/local/bin/; \
