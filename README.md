@@ -102,9 +102,12 @@ Then run the latest image. For example using it with a data volume:
 sudo docker run -d --name jenkins -p 127.0.0.1:8080 -v /home/myname/jenkins:/var/lib/jenkins iliyan/jenkins-ci-php:1.2.1
 ```
 
-When I see in `Manage Jenkins` that there is a new update of the server, I run a new build for all of this project's versions/tags.
-This way even if you pull the same tag you will have a newer version of jenkins automatically.
+When I see in `Manage Jenkins` that there is a new update of the server, I run a new build for this project's master branch and latest tag on [https://hub.docker.com](https://hub.docker.com) so you can redownload the docker image and have the latest Jenkins and its plugins. You can also update/install new plugins and they stay in your /var/lib/jenkins even after the container is replaced.
+
+This way even if you pull the same tag you will have a newer version of Jenkins automatically.
 I suggest you to pull my Jenkins image at least once a month and you can also submit an issue for me to update to the latest version.
+
+There are updates from time to time of the php-template which you may not see until you create a new project copying from it. So you're safe from breaking updates and you can always check the latest configuration by creating a new project from the template.
 
 Data Volumes
 ---
@@ -186,6 +189,8 @@ Alternative usage of the PHP testing tools:
 You can download all of the tools from your project's composer.json file adding them for example in the dev secion 
 like I did [here](http://gitlab.iliyan-trifonov.com/behat-tests/mvc-bdd-tdd/blob/master/composer.json "composer.json") 
 and [here](http://gitlab.iliyan-trifonov.com/behat-tests/mvc-bdd-tdd/blob/master/build.xml "build.xml").
+
+Check also [this Laravel 4 test project build](https://gitlab.iliyan-trifonov.com/laravel/test-empty-laravel-project "Laravel 4 Test Jenkins PHP build") that uses the tools from /usr/local/bin. See how the composer and its packages are called from [build.xml](https://gitlab.iliyan-trifonov.com/laravel/test-empty-laravel-project/blob/master/build.xml "build.xml"). The Jenkins project for this is [here](https://jenkins.iliyan-trifonov.com/job/LaravelTestEmptyProject/ "Laravel Test Project").
 
 Final
 ---
