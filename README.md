@@ -190,7 +190,7 @@ You can download all of the tools from your project's composer.json file adding 
 like I did [here](http://gitlab.iliyan-trifonov.com/behat-tests/mvc-bdd-tdd/blob/master/composer.json "composer.json") 
 and [here](http://gitlab.iliyan-trifonov.com/behat-tests/mvc-bdd-tdd/blob/master/build.xml "build.xml").
 
-Check also [this Laravel 4 test project build](https://gitlab.iliyan-trifonov.com/laravel/test-empty-laravel-project "Laravel 4 Test Jenkins PHP build") that uses the tools from /usr/local/bin. See how the composer and its packages are called from [build.xml](https://gitlab.iliyan-trifonov.com/laravel/test-empty-laravel-project/blob/master/build.xml "build.xml"). The Jenkins project for this is [here](https://jenkins.iliyan-trifonov.com/job/LaravelTestEmptyProject/ "Laravel Test Project").
+Check also [this Laravel 4 test project build](https://gitlab.iliyan-trifonov.com/laravel/test-empty-laravel-project/tree/master "Laravel 4 Test Jenkins PHP build") that uses the tools from /usr/local/bin. See how the composer and its packages are called from [build.xml](https://gitlab.iliyan-trifonov.com/laravel/test-empty-laravel-project/blob/master/build.xml "build.xml"). The Jenkins project for this is [here](https://jenkins.iliyan-trifonov.com/job/LaravelTestEmptyProject/ "Laravel Test Project").
 
 Final
 ---
