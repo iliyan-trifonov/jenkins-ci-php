@@ -32,16 +32,11 @@ The deb mirrors.ubuntu.com/mirrors.txt is used for faster local updating/downloa
 
 DEBIAN_FRONTEND=noninteractive and apt-get -qq are used for automatic silent installs.
 
-date.timezone=Europe/Sofia and ;disable_functions= are set in php.ini
+date.timezone=yourtimezone and ;disable_functions= are set in php.ini
 
-The timezone of the server is also set to Europe/Sofia. You can change it in the Dockerfile.
+The time zone of the server is also set to yourtimezone. You can provide your time zone while starting the container with `-e 'TIME_ZONE=Europe/Paris'`.
 
-While building from the Dockerfile, after Jenkins is installed and needs its first update there is a wait of 60 seconds 
-until the update script is called. 
-
-The Jenkins server is first updated before installing the plugins.
-
-Currently these plugins are installed: checkstyle cloverphp crap4j dry htmlpublisher jdepend plot pmd violations xunit git.
+Currently these plugins are installed: checkstyle cloverphp crap4j dry htmlpublisher jdepend plot pmd violations xunit git ansicolor.
 
 And these PHP testing tools are installed globally through Composer:
 phpunit/phpunit, squizlabs/php_codesniffer, phploc/phploc, pdepend/pdepend, phpmd/phpmd, sebastian/phpcpd, theseer/phpdox.
