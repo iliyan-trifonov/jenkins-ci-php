@@ -33,9 +33,8 @@ RUN service jenkins start; \
 	java -jar jenkins-cli.jar -s http://localhost:8080 create-job php-template; \
 	java -jar jenkins-cli.jar -s http://localhost:8080 reload-configuration
 
-RUN sed -i 's|disable_functions.*=|;disable_functions=|' /etc/php5/cli/php.ini
-
-RUN echo "xdebug.max_nesting_level = 500" >> /etc/php5/mods-available/xdebug.ini
+RUN sed -i 's|disable_functions.*=|;disable_functions=|' /etc/php5/cli/php.ini; \
+	echo "xdebug.max_nesting_level = 500" >> /etc/php5/mods-available/xdebug.ini
 
 RUN mkdir -p /home/jenkins/composerbin && chown -R jenkins:jenkins /home/jenkins; \
 	sudo -H -u jenkins bash -c ' \
@@ -64,7 +63,7 @@ RUN echo 'if [ -z "$TIME_ZONE" ]; then echo "No TIME_ZONE env set!" && exit 1; f
 	echo "echo \$TIME_ZONE > /etc/timezone;" >> /set_timezone.sh; \
 	echo "export DEBCONF_NONINTERACTIVE_SEEN=true DEBIAN_FRONTEND=noninteractive;" >> /set_timezone.sh; \
 	echo "dpkg-reconfigure tzdata" >> /set_timezone.sh; \
-	echo "echo time zone set to: \$TIME_ZONE"  >> /set_timezone.sh;
+	echo "echo time zone set to: \$TIME_ZONE"  >> /set_timezone.sh
 
 RUN echo 'if [ -n "$TIME_ZONE" ]; then sh /set_timezone.sh; fi' > /run_all.sh; \
 	echo "service jenkins start" >> /run_all.sh; \
