@@ -55,7 +55,7 @@ Install
 First download the image:
 
 ```bash
-sudo docker pull iliyan/jenkins-ci-php:1.3.0
+sudo docker pull iliyan/jenkins-ci-php:1.3.1
 ```
 
 And run it:
@@ -63,19 +63,19 @@ And run it:
 Locally:
 
 ```bash
-sudo docker run -d --name jenkins -p 127.0.0.1:8080:8080 iliyan/jenkins-ci-php:1.3.0
+sudo docker run -d --name jenkins -p 127.0.0.1:8080:8080 iliyan/jenkins-ci-php:1.3.1
 ```
 
 Visible from outside on a hosting server:
 
 ```bash
-sudo docker run -d --name jenkins -p VISIBLESERVERPORT:8080 iliyan/jenkins-ci-php:1.3.0
+sudo docker run -d --name jenkins -p VISIBLESERVERPORT:8080 iliyan/jenkins-ci-php:1.3.1
 ```
 
 Set your own timezone:
 
 ```bash
-sudo docker run -d --name jenkins -p VISIBLESERVERPORT:8080 -e 'TIME_ZONE=Europe/Paris' iliyan/jenkins-ci-php:1.3.0
+sudo docker run -d --name jenkins -p VISIBLESERVERPORT:8080 -e 'TIME_ZONE=Europe/Paris' iliyan/jenkins-ci-php:1.3.1
 ```
 
 Updating
@@ -87,7 +87,7 @@ It is recommended to always use data volume, mapping a local directory on the ho
 First pull the latest docker image:
 
 ```bash
-sudo docker pull iliyan/jenkins-ci-php:1.3.0
+sudo docker pull iliyan/jenkins-ci-php:1.3.1
 ```
 
 Then just remove the currently running image with:
@@ -99,7 +99,7 @@ sudo docker stop jenkins && sudo docker rm jenkins
 Then run the latest image. For example using it with a data volume:
 
 ```bash
-sudo docker run -d --name jenkins -p 127.0.0.1:8080 -v /home/myname/jenkins:/var/lib/jenkins iliyan/jenkins-ci-php:1.3.0
+sudo docker run -d --name jenkins -p 127.0.0.1:8080 -v /home/myname/jenkins:/var/lib/jenkins iliyan/jenkins-ci-php:1.3.1
 ```
 
 When I see in `Manage Jenkins` that there is a new update of the server, I run a new build for this project's master branch and latest tag on [https://hub.docker.com](https://hub.docker.com) so you can redownload the docker image and have the latest Jenkins and its plugins. You can also update/install new plugins and they stay in your /var/lib/jenkins even after the container is replaced.
@@ -121,7 +121,7 @@ First copy what is created by the image build script inside /var/lib/jenkins by 
 
 ```bash
 mkdir /home/myname/jenkins
-sudo docker run -ti --name jenkins iliyan/jenkins-ci-php:1.3.0 echo "Hello, Docker"
+sudo docker run -ti --name jenkins iliyan/jenkins-ci-php:1.3.1 echo "Hello, Docker"
 sudo docker cp jenkins:/var/lib/jenkins/* /home/myname/jenkins/
 sudo docker rm jenkins
 ```
@@ -129,7 +129,7 @@ sudo docker rm jenkins
 And then run a new container by specifying the data volume (you'll also need to give rights to the jenkins user on the mapped dir):
 
 ```bash
-sudo docker run -d --name jenkins -p 127.0.0.1:8080:8080 -v /home/myname/jenkins:/var/lib/jenkins iliyan/jenkins-ci-php:1.3.0 bash
+sudo docker run -d --name jenkins -p 127.0.0.1:8080:8080 -v /home/myname/jenkins:/var/lib/jenkins iliyan/jenkins-ci-php:1.3.1 bash
 chown -R jenkins:jenkins /var/lib/jenkins
 exit
 sudo docker commit jenkins myname/jenkins
@@ -158,7 +158,7 @@ Extending it
 If you need to install a new PHP extension or update Jenkins without rebuilding the image, you can start the container with Bash:
 
 ```bash
-sudo docker run -ti --name jenkins_tmp -v /home/myname/jenkins:/var/lib/jenkins iliyan/jenkins-ci-php:1.3.0 bash
+sudo docker run -ti --name jenkins_tmp -v /home/myname/jenkins:/var/lib/jenkins iliyan/jenkins-ci-php:1.3.1 bash
 ```
 
 Update, install or change any configuration and then exit the container, commit it:
