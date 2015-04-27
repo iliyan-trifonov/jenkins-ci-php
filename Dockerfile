@@ -65,9 +65,10 @@ RUN echo 'if [ -z "$TIME_ZONE" ]; then echo "No TIME_ZONE env set!" && exit 1; f
 	echo "dpkg-reconfigure tzdata" >> /set_timezone.sh; \
 	echo "echo time zone set to: \$TIME_ZONE"  >> /set_timezone.sh
 
-RUN echo 'if [ -n "$TIME_ZONE" ]; then sh /set_timezone.sh; fi' > /run_all.sh; \
+RUN echo 'if [ -n "$TIME_ZONE" ]; then sh /set_timezone.sh; fi;' > /run_all.sh; \
+	echo "curl -o /var/lib/jenkins/jobs/php-template/config.xml https://raw.githubusercontent.com/sebastianbergmann/php-jenkins-template/master/config.xml " >> /run_all.sh; \
 	echo "service jenkins start" >> /run_all.sh; \
-	echo "tail -f /var/log/jenkins/jenkins.log" >> /run_all.sh
+	echo "tail -f /var/log/jenkins/jenkins.log;" >> /run_all.sh
 
 EXPOSE 8080
 
