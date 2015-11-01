@@ -19,7 +19,7 @@ RUN wget -q -O - https://jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key
 
 RUN export DEBIAN_FRONTEND=noninteractive; \
 	apt-get update; \
-	apt-get -qq install php5-cli php5-xsl php5-json php5-curl php5-sqlite php5-mysqlnd php5-xdebug php5-intl php5-mcrypt php-pear curl git ant jenkins
+	apt-get -qq install php5 php5-cli php5-xsl php5-json php5-curl php5-sqlite php5-mysqlnd php5-xdebug php5-intl php5-mcrypt php-pear curl git ant jenkins
 
 RUN service jenkins start; \
 	while ! echo exit | nc -z -w 3 localhost 8080; do sleep 3; done; \
