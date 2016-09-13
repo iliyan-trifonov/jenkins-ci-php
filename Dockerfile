@@ -22,6 +22,7 @@ RUN export DEBIAN_FRONTEND=noninteractive; \
 	apt-get -qq install php5 php5-cli php5-xsl php5-json php5-curl php5-sqlite php5-mysqlnd php5-xdebug php5-intl php5-mcrypt php-pear curl git ant jenkins
 
 ADD ./jenkins_configure.sh /jenkins_configure.sh
+ADD ./wait4jenkins.sh /wait4jenkins.sh
 
 RUN sh /jenkins_configure.sh
 
