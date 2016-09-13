@@ -12,7 +12,7 @@ follows the http://jenkins-php.org/ configuration for installing Jenkins CI and 
 After you run the container you should use a project built like the example on http://jenkins-php.org/
 like [this one](http://gitlab.iliyan-trifonov.com/behat-tests/mvc-bdd-tdd/tree/master "mvc-bdd-tdd").
 
-You only need to add build.xml and build/ in your project, put your files in src/, put the tests in tests/ 
+You only need to add build.xml and build/ in your project, put your files in src/, put the tests in tests/
 and now you can use the full power of this configuration.
 
 And you can always change the default configuration
@@ -23,7 +23,7 @@ Configuration of the image
 
 This build uses Ubuntu 14.04 LTS image.
 
-The [PHP 5.5 PPA by Ondřej Surý](https://launchpad.net/~ondrej/+archive/ubuntu/php5 "PPA for PHP 5.5") 
+The [PHP 5.5 PPA by Ondřej Surý](https://launchpad.net/~ondrej/+archive/ubuntu/php5 "PPA for PHP 5.5")
 is used for the latest version of PHP and its extensions.
 
 For Jenkins [the Debian deb repo](http://pkg.jenkins-ci.org/debian "Jenkins Deb Repo") is used.
@@ -78,11 +78,20 @@ Set your own timezone:
 sudo docker run -d --name jenkins -p VISIBLESERVERPORT:8080 -e 'TIME_ZONE=Europe/Paris' iliyan/jenkins-ci-php:1.3.1
 ```
 
+The Jenkins' configuration wizard may run the first time you visit your Jenkins web address and ask you for an admin password.
+Just run this command to get the password from the container:
+
+```bash
+docker exec jenkins cat /var/lib/jenkins/secrets/initialAdminPassword
+```
+Copy the password and paste it in the wizard's page.
+
+
 Updating
 ---
 
 Don't forget to backup the /var/lib/jenkins directory first!
-It is recommended to always use data volume, mapping a local directory on the host to /var/lib/jenkins. 
+It is recommended to always use data volume, mapping a local directory on the host to /var/lib/jenkins.
 
 First pull the latest docker image:
 
@@ -112,8 +121,8 @@ There are updates from time to time of the php-template which you may not see un
 Data Volumes
 ---
 
-I suggest you to use a [data volume](https://docs.docker.com/userguide/dockervolumes/ "Docker Data Volumes") 
-with the container where you use a local directory on the host server and you can backup and reuse it with another 
+I suggest you to use a [data volume](https://docs.docker.com/userguide/dockervolumes/ "Docker Data Volumes")
+with the container where you use a local directory on the host server and you can backup and reuse it with another
 container or a new version of this container's image.
 Let's use it that way:
 
@@ -133,7 +142,7 @@ sudo docker run -d --name jenkins -p 127.0.0.1:8080:8080 -v /home/myname/jenkins
 chown -R jenkins:jenkins /var/lib/jenkins
 exit
 sudo docker commit jenkins myname/jenkins
-sudo docker run -d --name jenkins -p 127.0.0.1:8080:8080 -v /home/myname/jenkins:/var/lib/jenkins myname/jenkins sh /run_all.sh 
+sudo docker run -d --name jenkins -p 127.0.0.1:8080:8080 -v /home/myname/jenkins:/var/lib/jenkins myname/jenkins sh /run_all.sh
 ```
 
 Possible configuration changes after install
@@ -186,8 +195,8 @@ After the buiild use myname/jenkins to run the container
 Alternative usage of the PHP testing tools:
 ---
 
-You can download all of the tools from your project's composer.json file adding them for example in the dev secion 
-like I did [here](http://gitlab.iliyan-trifonov.com/behat-tests/mvc-bdd-tdd/blob/master/composer.json "composer.json") 
+You can download all of the tools from your project's composer.json file adding them for example in the dev secion
+like I did [here](http://gitlab.iliyan-trifonov.com/behat-tests/mvc-bdd-tdd/blob/master/composer.json "composer.json")
 and [here](http://gitlab.iliyan-trifonov.com/behat-tests/mvc-bdd-tdd/blob/master/build.xml "build.xml").
 
 Check also [this Laravel 4 test project build](https://gitlab.iliyan-trifonov.com/laravel/test-empty-laravel-project/tree/master "Laravel 4 Test Jenkins PHP build") that uses the tools from /usr/local/bin. See how the composer and its packages are called from [build.xml](https://gitlab.iliyan-trifonov.com/laravel/test-empty-laravel-project/blob/master/build.xml "build.xml"). The Jenkins project for this is [here](https://jenkins.iliyan-trifonov.com/job/LaravelTestEmptyProject/ "Laravel Test Project").
@@ -202,7 +211,7 @@ Create a new Jenkins Job by using the copy option and use php-template.
 Enable the build, pick the Git Option and add
 the url of the project (try with the ssh and http urls if you are not using credentials).
 
-Save and click Build. 
+Save and click Build.
 Go to the console log to see how it is working.
 If the project builds successfully you will see the power of CI!
 
